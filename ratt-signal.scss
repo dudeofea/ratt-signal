@@ -1,0 +1,28 @@
+/* Color Palette */
+
+$dark:		#071E22;
+$red: 		#D9594C;
+$blue1: 	#1D7874;
+$blue2: 	#679289;
+$light: 	#E7ECEF;
+
+/* Fonts */
+@import url(https://fonts.googleapis.com/css?family=Niconne);
+
+/* Global Styles */
+
+body, html {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: $dark;
+	color: $light;
+	font-family: "Niconne";
+	text-align: center;
+}
+
+h1 {
+	font-size: 500%;
+	font-weight: normal;
+}

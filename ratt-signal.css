@@ -1,1 +1,19 @@
-/* CSS declarations go here */
+/* Color Palette */
+/* Fonts */
+@import url(https://fonts.googleapis.com/css?family=Niconne);
+/* Global Styles */
+body, html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #071E22;
+  color: #E7ECEF;
+  font-family: "Niconne";
+  text-align: center; }
+
+h1 {
+  font-size: 500%;
+  font-weight: normal; }
+
+/*# sourceMappingURL=ratt-signal.css.map */

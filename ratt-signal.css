@@ -1,6 +1,7 @@
 /* Color Palette */
 /* Fonts */
 @import url(https://fonts.googleapis.com/css?family=Niconne);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
 /* Global Styles */
 body, html {
   width: 100%;
@@ -15,5 +16,9 @@ body, html {
 h1 {
   font-size: 500%;
   font-weight: normal; }
+
+p {
+  font-family: "Montserrat";
+  font-size: 30px; }
 
 /*# sourceMappingURL=ratt-signal.css.map */

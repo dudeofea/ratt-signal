@@ -8,6 +8,7 @@ $light: 	#E7ECEF;
 
 /* Fonts */
 @import url(https://fonts.googleapis.com/css?family=Niconne);
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 /* Global Styles */
 
@@ -27,3 +28,7 @@ h1 {
 	font-weight: normal;
 }
 
+p {
+	font-family: "Montserrat";
+	font-size: 30px;
+}

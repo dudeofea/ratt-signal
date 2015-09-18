@@ -1,23 +1,28 @@
+AllUsers = new Mongo.Collection('all_users');
+
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 0);
+	//create a new user if doesn't exist
+	var user_id = Session.get('user_id');
+	//check if user exists
+	var oid = new Mongo.ObjectID(user_id);
+	if(AllUsers.find(oid).count() < 1){
+		user_id = AllUsers.insert({checked_in: 0});
+		Session.setPersistent('user_id', user_id);
+	}
 
-  Template.hello.helpers({
-    counter: function () {
-      return Session.get('counter');
-    }
-  });
+	Template.ratt.helpers({
+		user_count: function () {
+			return AllUsers.find({}).count();
+		}
+	});
 
-  Template.hello.events({
-    'click img': function () {
-      // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
-    }
-  });
+	Template.ratt.events({
+		'click img': function () {
+			// increment the counter when button is clicked
+			Session.set('counter', Session.get('counter') + 1);
+		}
+	});
 }
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
 }

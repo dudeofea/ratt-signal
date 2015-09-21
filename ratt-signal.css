@@ -21,4 +21,11 @@ p {
   font-family: "Montserrat";
   font-size: 30px; }
 
+img {
+  -khtml-user-select: none;
+  -o-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none; }
+
 /*# sourceMappingURL=ratt-signal.css.map */

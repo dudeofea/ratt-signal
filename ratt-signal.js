@@ -1,4 +1,4 @@
-AllUsers = new Mongo.Collection('all_users');
+AllUsers = new Mongo.Collection('users');
 
 if (Meteor.isClient) {
 	var db_ready = false;
@@ -23,7 +23,14 @@ if (Meteor.isClient) {
 			return AllUsers.find({checked_in: 1}).count();
 		},
 		light_image: function() {
-			return Session.get('light_image');
+			var info = AllUsers.findOne({_id: user_id});
+			if(info['checked_in'] == 1){
+				//turn on
+				return 'signal-filled.png';
+			}else{
+				//turn off
+				return 'signal.png';
+			}
 		}
 	});
 
@@ -31,13 +38,6 @@ if (Meteor.isClient) {
 		'click img': function () {
 			//toggle in the user status (and lightbulb)
 			var info = AllUsers.findOne({_id: user_id});
-			if(info['checked_in'] == 0){
-				//turn on
-				Session.set('light_image', 'signal-filled.png');
-			}else{
-				//turn off
-				Session.set('light_image', 'signal.png');
-			}
 			AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in']});
 		}
 	});

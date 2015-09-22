@@ -24,6 +24,10 @@ if (Meteor.isClient) {
 		},
 		light_image: function() {
 			var info = AllUsers.findOne({_id: user_id});
+			if(info == null){
+				//default
+				return 'signal.png';
+			}
 			if(info['checked_in'] == 1){
 				//turn on
 				return 'signal-filled.png';

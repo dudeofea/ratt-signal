@@ -40,15 +40,12 @@ input[type="text"] {
   border-radius: 5px;
   background-color: #071E22;
   color: #E7ECEF;
-  transition: border 0.3s;
-}
+  transition: border 0.3s; }
 
 input[type="text"]:focus,
 input[type="text"].focus {
   border: 1px solid #D9594C;
-  transition: background-color 0.3s ease-in,
-              color 0.3s ease-in;
-}
+  transition: background-color 0.3s ease-in, color 0.3s ease-in; }
 
 .ghost-button {
   font-family: sans-serif;
@@ -63,14 +60,12 @@ input[type="text"].focus {
   text-align: center;
   outline: none;
   text-decoration: none;
-  transition: background-color 0.2s ease-out,
-              color 0.2s ease-out;
-}
+  transition: background-color 0.2s ease-out, color 0.2s ease-out; }
+
 .ghost-button:hover,
 .ghost-button:active {
   background-color: #D9594C;
   color: #fff;
-  transition: background-color 0.3s ease-in,
-              color 0.3s ease-in;
-}
+  transition: background-color 0.3s ease-in, color 0.3s ease-in; }
+
 /*# sourceMappingURL=ratt-signal.css.map */

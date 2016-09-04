@@ -59,11 +59,16 @@ if (Meteor.isClient) {
 		'click .ghost-button, submit .nameForm': function (event) {
 
             event.preventDefault();
-
+			//debugger;
             console.log("Triggered");
-			//toggle in the user status (and lightbulb)
 			var info = AllUsers.findOne({_id: user_id});
-			AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in']});
+			if(!(info['checked_in'] == 1) || !event.target.name.value){
+				alert("Please enter your name!");
+			}
+			else{
+				//toggle in the user status (and lightbulb)
+				AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in'], name: event.target.name.value});
+			}
 		}
 	});
 }

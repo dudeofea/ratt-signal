@@ -36,13 +36,27 @@ if (Meteor.isClient) {
 				return 'signal.png';
 			}
 		},
+		activate_status: function() {
+			var info = AllUsers.findOne({_id: user_id});
+			if(info == null){
+				//default
+				return 'Activate';
+			}
+			if(info['checked_in'] == 1){
+				//turn on
+				return 'Deactivate';
+			}else{
+				//turn off
+				return 'Activate';
+			}
+		},
         user_list: function(){
             return AllUsers.find({checked_in: 1}).fetch();
         }
 	});
 
 	Template.ratt.events({
-		'click img': function () {
+		'click .ghost-button': function () {
 			//toggle in the user status (and lightbulb)
 			var info = AllUsers.findOne({_id: user_id});
 			AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in']});

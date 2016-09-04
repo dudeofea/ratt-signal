@@ -88,4 +88,7 @@ if (Meteor.isServer) {
 	Meteor.publish('db_ready', function(){
         return AllUsers.find({});
     });
+	Meteor.setInterval(function() {
+		AllUsers.deleteMany({$and:[{checked_in: 1}, {time: {$lt: new Date((new Date())-1000*60*60*1) }}]});
+	}, 300000);
 }

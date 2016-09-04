@@ -56,7 +56,11 @@ if (Meteor.isClient) {
 	});
 
 	Template.ratt.events({
-		'click .ghost-button': function () {
+		'click .ghost-button, submit .nameForm': function (event) {
+
+            event.preventDefault();
+
+            console.log("Triggered");
 			//toggle in the user status (and lightbulb)
 			var info = AllUsers.findOne({_id: user_id});
 			AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in']});

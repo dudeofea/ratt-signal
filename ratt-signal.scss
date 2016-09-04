@@ -41,6 +41,10 @@ img {
 	user-select: none;
 }
 
+ul{
+    list-style-type: none;
+}
+
 input[type="text"] {
   width: 30%;
   align-content: center;
@@ -58,6 +62,7 @@ input[type="text"] {
 
 input[type="text"]:focus,
 input[type="text"].focus {
+  outline: none;
   border: 1px solid $red;
   transition: background-color 0.3s ease-in,
               color 0.3s ease-in;

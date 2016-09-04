@@ -10,4 +10,9 @@
 	<h1>The Ratt Signal</h1>
 	<img src="img/{{light_image}}">
 	<p>{{user_count}} Users Ratt'ed Out</p>
+    <ul>
+        {{#each user_list}}
+            <li><p>{{_id}}</p></li>
+        {{/each}}
+    </ul>
 </template>

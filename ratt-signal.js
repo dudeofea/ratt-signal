@@ -35,7 +35,10 @@ if (Meteor.isClient) {
 				//turn off
 				return 'signal.png';
 			}
-		}
+		},
+        user_list: function(){
+            return AllUsers.find({checked_in: 1}).fetch();
+        }
 	});
 
 	Template.ratt.events({

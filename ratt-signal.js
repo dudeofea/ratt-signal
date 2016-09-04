@@ -62,7 +62,7 @@ if (Meteor.isClient) {
 			//debugger;
             console.log("Triggered");
 			var info = AllUsers.findOne({_id: user_id});
-			if(!(info['checked_in'] == 1) || !event.target.name.value){
+			if(!(info['checked_in'] == 1) && !event.target.name.value){
 				alert("Please enter your name!");
 			}
 			else{

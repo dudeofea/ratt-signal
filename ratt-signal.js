@@ -18,6 +18,16 @@ if (Meteor.isClient) {
 		}
 	});
 
+    Template.registerHelper('format_date', function(date) {
+        if (!date){
+            return "";
+        }
+        return date.getHours() % 12 + ":" + 
+                (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() ) 
+                + " " 
+                + (date.getHours() > 12 ? "PM" : "AM");
+    });
+
 	Template.ratt.helpers({
 		user_count: function () {
 			return AllUsers.find({checked_in: 1}).count();
@@ -53,6 +63,7 @@ if (Meteor.isClient) {
         user_list: function(){
             return AllUsers.find({checked_in: 1}).fetch();
         }
+
 	});
 
 	Template.ratt.events({
@@ -67,7 +78,7 @@ if (Meteor.isClient) {
 			}
 			else{
 				//toggle in the user status (and lightbulb)
-				AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in'], name: event.target.name.value});
+				AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in'], name: event.target.name.value, time: new Date() });
 			}
 		}
 	});

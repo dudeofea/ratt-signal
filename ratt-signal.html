@@ -9,5 +9,16 @@
 <template name="ratt">
 	<h1>The Ratt Signal</h1>
 	<img src="img/{{light_image}}">
+    <p>
+        <form class="nameForm">
+            <input type="text" name="name" id="nameField" placeholder="What's your name?">
+            <input type="button" class="ghost-button" value="{{activate_status}} the Ratt Signal">
+        </form>
+    </p>
 	<p>{{user_count}} Users Ratt'ed Out</p>
+    <ul>
+        {{#each user_list}}
+            <li><p>{{name}}&nbsp;       &nbsp;{{format_date time}}</p></li>
+        {{/each}}
+    </ul>
 </template>

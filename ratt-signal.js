@@ -18,6 +18,16 @@ if (Meteor.isClient) {
 		}
 	});
 
+    Template.registerHelper('format_date', function(date) {
+        if (!date){
+            return "";
+        }
+        return date.getHours() % 12 + ":" + 
+                (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() ) 
+                + " " 
+                + (date.getHours() > 12 ? "PM" : "AM");
+    });
+
 	Template.ratt.helpers({
 		user_count: function () {
 			return AllUsers.find({checked_in: 1}).count();
@@ -35,14 +45,41 @@ if (Meteor.isClient) {
 				//turn off
 				return 'signal.png';
 			}
-		}
+		},
+		activate_status: function() {
+			var info = AllUsers.findOne({_id: user_id});
+			if(info == null){
+				//default
+				return 'Activate';
+			}
+			if(info['checked_in'] == 1){
+				//turn on
+				return 'Deactivate';
+			}else{
+				//turn off
+				return 'Activate';
+			}
+		},
+        user_list: function(){
+            return AllUsers.find({checked_in: 1}).fetch();
+        }
+
 	});
 
 	Template.ratt.events({
-		'click img': function () {
-			//toggle in the user status (and lightbulb)
+		'click .ghost-button, submit .nameForm': function (event) {
+
+            event.preventDefault();
+			//debugger;
+            console.log("Triggered");
 			var info = AllUsers.findOne({_id: user_id});
-			AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in']});
+			if(!(info['checked_in'] == 1) && !event.target.name.value){
+				alert("Please enter your name!");
+			}
+			else{
+				//toggle in the user status (and lightbulb)
+				AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in'], name: event.target.name.value, time: new Date() });
+			}
 		}
 	});
 }
@@ -51,4 +88,7 @@ if (Meteor.isServer) {
 	Meteor.publish('db_ready', function(){
         return AllUsers.find({});
     });
+	Meteor.setInterval(function() {
+		AllUsers.remove({$and:[{checked_in: 1}, {time: {$lt: new Date((new Date())-1000*60*60*1) }}]});
+	}, 300000);
 }

@@ -22,10 +22,10 @@ if (Meteor.isClient) {
         if (!date){
             return "";
         }
-        return date.getHours() % 12 + ":" + 
-                (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() ) 
-                + " " 
-                + (date.getHours() > 12 ? "PM" : "AM");
+        return date.getHours() % 12 + ":" +
+                (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() )
+                + " "
+                + (date.getHours() >= 12 ? "PM" : "AM");
     });
 
 	Template.ratt.helpers({
@@ -33,18 +33,16 @@ if (Meteor.isClient) {
 			return AllUsers.find({checked_in: 1}).count();
 		},
 		light_image: function() {
-			var info = AllUsers.findOne({_id: user_id});
-			if(info == null){
-				//default
-				return 'signal.png';
-			}
-			if(info['checked_in'] == 1){
-				//turn on
+			var turnOn = AllUsers.find({checked_in: 1}).count();
+			//console.log(turnOn);
+			if(turnOn > 0){
+				//Turn on
 				return 'signal-filled.png';
-			}else{
-				//turn off
-				return 'signal.png';
 			}
+			else{
+				//Turn off
+				return 'signal.png';
+			}			
 		},
 		activate_status: function() {
 			var info = AllUsers.findOne({_id: user_id});
@@ -67,11 +65,11 @@ if (Meteor.isClient) {
 	});
 
 	Template.ratt.events({
-		'click .ghost-button, submit .nameForm': function (event) {
+		'submit .nameForm': function (event) {
 
-            event.preventDefault();
+      event.preventDefault();
 			//debugger;
-            console.log("Triggered");
+			//console.log("Triggered");
 			var info = AllUsers.findOne({_id: user_id});
 			if(!(info['checked_in'] == 1) && !event.target.name.value){
 				alert("Please enter your name!");

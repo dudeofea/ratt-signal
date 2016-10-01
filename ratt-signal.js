@@ -4,8 +4,6 @@ if (Meteor.isClient) {
 	var db_ready = false;
 	var user_id = Session.get('user_id');
 	Session.set('light_image', 'signal.png');
-	Template.activate_status
-	Template.light_image
 	//wait for db to be ready
 	Meteor.subscribe('db_ready', function(){
 		if(!db_ready){
@@ -35,18 +33,16 @@ if (Meteor.isClient) {
 			return AllUsers.find({checked_in: 1}).count();
 		},
 		light_image: function() {
-			var info = AllUsers.findOne({_id: user_id});
-			if(info == null){
-				//default
-				return 'signal.png';
-			}
-			if(info['checked_in'] == 1){
-				//turn on
+			var turnOn = AllUsers.find({checked_in: 1}).count();
+			//console.log(turnOn);
+			if(turnOn > 0){
+				//Turn on
 				return 'signal-filled.png';
-			}else{
-				//turn off
-				return 'signal.png';
 			}
+			else{
+				//Turn off
+				return 'signal.png';
+			}			
 		},
 		activate_status: function() {
 			var info = AllUsers.findOne({_id: user_id});

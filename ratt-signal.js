@@ -4,6 +4,8 @@ if (Meteor.isClient) {
 	var db_ready = false;
 	var user_id = Session.get('user_id');
 	Session.set('light_image', 'signal.png');
+	Template.activate_status
+	Template.light_image
 	//wait for db to be ready
 	Meteor.subscribe('db_ready', function(){
 		if(!db_ready){
@@ -22,10 +24,10 @@ if (Meteor.isClient) {
         if (!date){
             return "";
         }
-        return date.getHours() % 12 + ":" + 
-                (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() ) 
-                + " " 
-                + (date.getHours() > 12 ? "PM" : "AM");
+        return date.getHours() % 12 + ":" +
+                (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes() )
+                + " "
+                + (date.getHours() >= 12 ? "PM" : "AM");
     });
 
 	Template.ratt.helpers({
@@ -67,11 +69,11 @@ if (Meteor.isClient) {
 	});
 
 	Template.ratt.events({
-		'click .ghost-button, submit .nameForm': function (event) {
+		'submit .nameForm': function (event) {
 
-            event.preventDefault();
+      event.preventDefault();
 			//debugger;
-            console.log("Triggered");
+			//console.log("Triggered");
 			var info = AllUsers.findOne({_id: user_id});
 			if(!(info['checked_in'] == 1) && !event.target.name.value){
 				alert("Please enter your name!");

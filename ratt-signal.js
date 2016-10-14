@@ -1,4 +1,5 @@
 AllUsers = new Mongo.Collection('users');
+//process.env.COMPE_SLACK = ""; //Uncomment and put key here
 
 if (Meteor.isClient) {
 	var db_ready = false;
@@ -67,8 +68,7 @@ if (Meteor.isClient) {
 
 	Template.ratt.events({
 		'submit .nameForm': function (event) {
-
-      event.preventDefault();
+      		event.preventDefault();
 			//debugger;
 			//console.log("Triggered");
 			var user_id = Session.get("user_id");
@@ -79,12 +79,45 @@ if (Meteor.isClient) {
 			else{
 				//toggle in the user status (and lightbulb)
 				AllUsers.update({_id: user_id}, {checked_in: 1 - info['checked_in'], name: event.target.name.value, time: new Date() });
+				if(!(info['checked_in'] == 1) && event.target.name.value){
+					Meteor.call('activateRattSignalSlack', event.target.name.value, function(err,response) {
+					if(err) {
+						Console.log("Error:" + err.reason);
+						return;
+					}
+					});
+				}
 			}
 		}
 	});
 }
 
 if (Meteor.isServer) {
+	var rattSignalBot;	
+	var slackParams = {
+    		icon_emoji: ':rotating_light:'
+	};
+	Meteor.startup(function() {
+        var SlackBot = Meteor.npmRequire('slackbots');
+		var slackParams = {
+    		icon_emoji: ':rotating_light:'
+		};
+		rattSignalBot = new SlackBot({
+    		token: process.env.COMPE_SLACK,
+    		name: Meteor.settings.name
+		});
+        rattSignalBot.on('start', function() {
+			//rattSignalBot.postMessageToChannel('ratt-signal', 'Hello World, I am the Ratt Signal!', slackParams);
+        });
+		rattSignalBot.on('message', function(data) {
+    		//console.log(data);
+		});
+		Meteor.methods({
+	  		activateRattSignalSlack: function (name) {
+				rattSignalBot.postMessageToChannel('ratt-signal', ':rotating_light: ' + name + ' has activated the Ratt Signal! :rotating_light:', slackParams);
+	  		}
+		});
+    });
 	Meteor.publish('db_ready', function(){
         return AllUsers.find({});
     });

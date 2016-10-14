@@ -104,7 +104,7 @@ if (Meteor.isServer) {
 		};
 		rattSignalBot = new SlackBot({
     		token: process.env.COMPE_SLACK,
-    		name: Meteor.settings.name
+    		name: "rattsignal"
 		});
         rattSignalBot.on('start', function() {
 			//rattSignalBot.postMessageToChannel('ratt-signal', 'Hello World, I am the Ratt Signal!', slackParams);

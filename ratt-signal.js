@@ -122,6 +122,6 @@ if (Meteor.isServer) {
         return AllUsers.find({});
     });
 	Meteor.setInterval(function() {
-		AllUsers.remove({$and:[{checked_in: 1}, {time: {$lt: new Date((new Date())-1000*60*60*1) }}]});
+		AllUsers.remove({$and:[{checked_in: 1}, {time: {$lt: new Date((new Date())-1000*60*60*3) }}]});
 	}, 300000);
 }

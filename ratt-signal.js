@@ -1,5 +1,6 @@
 AllUsers = new Mongo.Collection('users');
 //process.env.COMPE_SLACK = ""; //Uncomment and put key here
+//process.env.WE_NEED_A_SLACK = ""; //Uncomment and put key here
 
 if (Meteor.isClient) {
 	var db_ready = false;
@@ -93,7 +94,8 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
-	var rattSignalBot;	
+	var rattSignalBotCompE;
+	var rattSignalBotWeNeedASlack;	
 	var slackParams = {
     		icon_emoji: ':rotating_light:'
 	};
@@ -102,19 +104,26 @@ if (Meteor.isServer) {
 		var slackParams = {
     		icon_emoji: ':rotating_light:'
 		};
-		rattSignalBot = new SlackBot({
+		rattSignalBotCompE = new SlackBot({
     		token: process.env.COMPE_SLACK,
     		name: "rattsignal"
 		});
-        rattSignalBot.on('start', function() {
+		rattSignalBotWeNeedASlack = new SlackBot({
+    		token: process.env.WE_NEED_A_SLACK,
+    		name: "rattsignal"
+		});
+		/* For commands later
+        rattSignalBotCompE.on('start', function() {
 			//rattSignalBot.postMessageToChannel('ratt-signal', 'Hello World, I am the Ratt Signal!', slackParams);
         });
-		rattSignalBot.on('message', function(data) {
+		rattSignalBotCompE.on('message', function(data) {
     		//console.log(data);
 		});
+		*/
 		Meteor.methods({
 	  		activateRattSignalSlack: function (name) {
-				rattSignalBot.postMessageToChannel('ratt-signal', ':rotating_light: ' + name + ' has activated the Ratt Signal! :rotating_light:', slackParams);
+				rattSignalBotCompE.postMessageToChannel('ratt-signal', ':rotating_light: ' + name + ' has activated the Ratt Signal! :rotating_light:', slackParams);
+				rattSignalBotWeNeedASlack.postMessageToChannel('ratt-signal', ':rotating_light: ' + name + ' has activated the Ratt Signal! :rotating_light:', slackParams);
 	  		}
 		});
     });
@@ -122,6 +131,6 @@ if (Meteor.isServer) {
         return AllUsers.find({});
     });
 	Meteor.setInterval(function() {
-		AllUsers.remove({$and:[{checked_in: 1}, {time: {$lt: new Date((new Date())-1000*60*60*1) }}]});
+		AllUsers.remove({$and:[{checked_in: 1}, {time: {$lt: new Date((new Date())-1000*60*60*3) }}]});
 	}, 300000);
 }
